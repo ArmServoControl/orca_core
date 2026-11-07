@@ -21,7 +21,9 @@ MOTOR_LIMITS_DICT = "motor_limits"
 
 DYNAMIXEL = "dynamixel"
 FEETECH = "feetech"
-SUPPORTED_MOTOR_TYPES = [DYNAMIXEL, FEETECH]
+# Feetech STS series (e.g. STS3215): same protocol as HLS, different force-limit register.
+FEETECH_STS = "feetech_sts"
+SUPPORTED_MOTOR_TYPES = [DYNAMIXEL, FEETECH_STS, FEETECH]
 
 JOINT_TO_MOTOR_RATIOS = "joint_to_motor_ratios"
 JOINT_ENCODER_CALIBRATION = "joint_encoder_calibration"
@@ -161,6 +163,7 @@ STEP = "step"
 MOTOR_MODELS: dict[str, dict[str, str]] = {
     DYNAMIXEL: {WRIST: "XC430", FINGER: "XC330"},
     FEETECH: {WRIST: "HLS3930", FINGER: "HLS3915"},
+    FEETECH_STS: {WRIST: "STS3215", FINGER: "STS3215"},
 }
 
 TINY_SLEEP = 5e-2
@@ -178,6 +181,7 @@ STEP_SIZE = 0.01
 MOTOR_BAUD_RATES: dict[str, list[int]] = {
     DYNAMIXEL: [1_000_000, 3_000_000],
     FEETECH: [1_000_000],
+    FEETECH_STS: [1_000_000],
 }
 
 # Return Delay Time programmed into every DYNAMIXEL during chain assembly: how
