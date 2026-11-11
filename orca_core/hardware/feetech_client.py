@@ -36,6 +36,7 @@ from .feetech import (
     COMM_SUCCESS,
 )
 from .feetech_registers import HLS
+from .sts_registers import STS_MODEL_NUMBERS, STS_MODELS
 
 _UNPROBED = object()
 """Distinguishes 'not asked yet' from a probed answer of None."""
@@ -61,6 +62,8 @@ FEETECH_MODELS: dict[int, str] = {
     4106: 'HLS3930',
     6922: 'HLS3915',
     5130: 'HLS3915',
+    # STS servos answer the same ping; naming them lets a scan tell the two apart.
+    **STS_MODELS,
 }
 
 # Model-number → no-load speed in rpm, from each model's datasheet. Kept per
@@ -1645,8 +1648,10 @@ class FeetechClient(MotorClient):
                 return False
             packet = HLSPacketHandler(handler)
             for motor_id in sample:
-                _, comm, _ = packet.ping(motor_id)
-                if comm == COMM_SUCCESS:
+                model, comm, _ = packet.ping(motor_id)
+                # An STS servo answers the same ping but needs StsClient: its
+                # register 44 is goal time, not goal current.
+                if comm == COMM_SUCCESS and model not in STS_MODEL_NUMBERS:
                     return True
             return False
         finally:

@@ -19,7 +19,7 @@ from __future__ import annotations
 
 from typing import Sequence
 
-from ..constants import DYNAMIXEL, FEETECH, SUPPORTED_MOTOR_TYPES
+from ..constants import DYNAMIXEL, FEETECH, FEETECH_STS, SUPPORTED_MOTOR_TYPES
 from .motor_client import MotorClient
 
 
@@ -34,6 +34,11 @@ def motor_client_class(motor_type: str) -> type[MotorClient]:
         from .feetech_client import FeetechClient
 
         return FeetechClient
+
+    if motor_type == FEETECH_STS:
+        from .sts_client import StsClient
+
+        return StsClient
 
     raise ValueError(
         f"Unknown motor_type: {motor_type}. "
@@ -66,6 +71,11 @@ def mock_motor_client_class(motor_type: str) -> type[MotorClient]:
         from .mock_feetech_client import MockFeetechClient
 
         return MockFeetechClient
+
+    if motor_type == FEETECH_STS:
+        from .mock_sts_client import MockStsClient
+
+        return MockStsClient
 
     raise ValueError(
         f"Unknown motor_type: {motor_type}. "

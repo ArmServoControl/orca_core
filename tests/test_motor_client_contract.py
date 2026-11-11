@@ -22,11 +22,13 @@ from orca_core.hardware.dynamixel_client import DynamixelClient
 from orca_core.hardware.feetech_client import FeetechClient
 from orca_core.hardware.mock_dynamixel_client import MockDynamixelClient
 from orca_core.hardware.mock_feetech_client import MockFeetechClient
+from orca_core.hardware.mock_sts_client import MockStsClient
 from orca_core.hardware.motor_client import MotorClient, ServoGains
 
 MOCK_CLASSES = [
     pytest.param(MockDynamixelClient, id="dynamixel"),
     pytest.param(MockFeetechClient, id="feetech"),
+    pytest.param(MockStsClient, id="feetech_sts"),
 ]
 
 
